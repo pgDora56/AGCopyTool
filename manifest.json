@@ -1,0 +1,14 @@
+{
+    "name": "AnisonGeneration Song Data Copy Tool",
+    "short_name": "AGCopy",
+    "version": "0.0.1",
+    "manifest_version": 2,
+    "description": "Easily copy AnisonGeneration's song information",
+    "content_scripts": [{
+        "matches": ["http://anison.info/data/*"],
+        "js": [
+            "content.js"
+        ],
+        "all_frames": true
+    }]
+}

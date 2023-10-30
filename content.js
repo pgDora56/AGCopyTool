@@ -1,21 +1,12 @@
-// ==UserScript==
-// @name         AG Copy Tool
-// @namespace    https://github.com/pgDora56
-// @version      0.1
-// @description  Add copy function to anison generation
-// @author       Dora F.
-// @match        http://anison.info/data/*
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=anison.info
-// @grant        none
-// ==/UserScript==
-
 (function() {
     'use strict';
     let subject = document.querySelector(".subject");
+    if(!subject) {
+        return;
+    }
     let title = subject.innerText;
     let perstr = "";
     let prostr = "";
-    console.log(title);
 
     document.querySelectorAll("table").forEach((elem) => {
         let columns = [];
