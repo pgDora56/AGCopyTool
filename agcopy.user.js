@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AG Copy Tool
 // @namespace    https://github.com/pgDora56
-// @version      0.1
+// @version      0.2.0
 // @description  Add copy function to anison generation
 // @author       Dora F.
 // @match        http://anison.info/data/*
@@ -70,21 +70,40 @@ function personsString(trs) {
 function programsString(trs) {
     let strs = [];
     trs.forEach((tr) => {
+        let genre = "";
+        let pro = "";
+        let oped = "";
         let tds = tr.querySelectorAll("td");
         if (tds.length == 3) {
             let tdstrong = tds[0].querySelectorAll("strong")
             if (tdstrong.length == 1) {
-                strs.push(tds[1].querySelector("strong").innerText+"[★"+
-                          tdstrong[0].innerText.substr(0, 2)+" "+
-                          tds[2].querySelector("strong").innerText+"]");
+                genre = tdstrong[0].innerText.substr(0, 2);
+                pro = tds[1].querySelector("strong").innerText;
+                oped = "*" + tds[2].querySelector("strong").innerText;
             } else {
-                strs.push(tds[1].innerText+"["+
-                          tds[0].innerText.substr(0, 2)+" "+
-                          tds[2].innerText+"]");
+                genre = tds[0].innerText.substr(0, 2);
+                pro = tds[1].innerText;
+                oped = tds[2].innerText;
+            }
+            let dupl = false;
+            for(let i = 0; i < strs.length; i++) {
+                if(genre+pro==strs[i][0]) {
+                    strs[i][3].push(oped);
+                    dupl = true;
+                    break;
+                }
+            }
+            if(!dupl) {
+                strs.push([genre+pro, pro, genre, [oped]]);
             }
         }
     });
-    return strs.join(", ");
+    console.log(strs);
+    let ret = [];
+    for(let i = 0; i < strs.length; i++) {
+        ret.push(`${strs[i][2]}『${strs[i][1]}』[${strs[i][3].join("/")}]`);
+    }
+    return ret.join(", ");
 }
 
 function copyTextToClipboard (text) {
