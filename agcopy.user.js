@@ -46,10 +46,25 @@ function personsString(trs) {
     trs.forEach((tr) => {
         let tds = tr.querySelectorAll("td");
         if (tds.length == 2) {
-            strs.push(tds[0].innerText + ":" + tds[1].innerText);
+            let typ = tds[0].innerText;
+            let dupl = false;
+            for(let i = 0; i < strs.length; i++) {
+                if(typ == strs[i][0]) {
+                    strs[i][1] += ", " + tds[1].innerText;
+                    dupl = true;
+                    break;
+                }
+            }
+            if(!dupl){
+                strs.push([tds[0].innerText, tds[0].innerText + ":" + tds[1].innerText]);
+            }
         }
     });
-    return strs.join(" / ");
+    let ret = [];
+    for(let i = 0; i < strs.length; i++) {
+        ret.push(strs[i][1]);
+    }
+    return ret.join(" / ");
 }
 
 function programsString(trs) {
